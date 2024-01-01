@@ -1,14 +1,49 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from "vue";
+import GoalsCounter from "./components/GoalsCounter.vue";
+import GoalsList from "./components/GoalsList.vue";
+import GoalsItem from "./components/GoalsItem.vue";
+
+const number = ref<number>(0);
+const enteredValue = ref<string>("");
+
+const goalsArray = <string[]>[];
+
+// const goalsArray = [
+//   "Learn a new skill",
+//   "Read a book",
+//   "Exercise regularly",
+//   "Travel to a new place",
+//   "Start a hobby",
+//   "Spend time with family",
+//   "Eat healthier",
+//   "Save money",
+//   "Volunteer for a cause",
+//   "Improve time management",
+// ];
+
+const addGoals = () => {
+  goalsArray.push(enteredValue.value);
+};
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <img
+      alt="Vue logo"
+      class="logo"
+      src="./assets/logo.svg"
+      width="125"
+      height="125"
+    />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <input type="text" id="goal" v-model="enteredValue" />
+      <button @click="addGoals()">{{ enteredValue }}</button>
+      <GoalsCounter></GoalsCounter>
+      <GoalsList>
+        <GoalsItem :goals-arr="goalsArray"></GoalsItem>
+      </GoalsList>
     </div>
   </header>
 
