@@ -2,7 +2,6 @@
 import { ref, type PropType } from "vue";
 
 const props = defineProps({
-  title: String,
   goalsArr: Array as PropType<string[]>,
 });
 </script>

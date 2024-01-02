@@ -1,30 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import GoalsCounter from "./components/GoalsCounter.vue";
 import GoalsList from "./components/GoalsList.vue";
 import GoalsItem from "./components/GoalsItem.vue";
 
-const number = ref<number>(0);
 const enteredValue = ref<string>("");
-
-const goalsArray = <string[]>[];
-
-// const goalsArray = [
-//   "Learn a new skill",
-//   "Read a book",
-//   "Exercise regularly",
-//   "Travel to a new place",
-//   "Start a hobby",
-//   "Spend time with family",
-//   "Eat healthier",
-//   "Save money",
-//   "Volunteer for a cause",
-//   "Improve time management",
-// ];
+const goalsArray = ref<string[]>([]);
 
 const addGoals = () => {
-  goalsArray.push(enteredValue.value);
+  goalsArray.value.push(enteredValue.value);
+  console.log("Goal pushed:", enteredValue.value);
+  enteredValue.value = "";
 };
+
+onMounted(() => {
+  addGoals(); // Example: Adding an initial item when the component is mounted
+});
 </script>
 
 <template>
@@ -38,18 +29,19 @@ const addGoals = () => {
     />
 
     <div class="wrapper">
-      <input type="text" id="goal" v-model="enteredValue" />
-      <button @click="addGoals()">{{ enteredValue }}</button>
-      <GoalsCounter></GoalsCounter>
+      <input
+        type="text"
+        id="goal"
+        v-model="enteredValue"
+        placeholder="Write a goal"
+      />
+      <button @click="addGoals()">Add a Goal</button>
+      <GoalsCounter>{{ goalsArray.length }}</GoalsCounter>
       <GoalsList>
         <GoalsItem :goals-arr="goalsArray"></GoalsItem>
       </GoalsList>
     </div>
   </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
 <style scoped>
@@ -77,6 +69,16 @@ header {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+  }
+
+  button {
+    background-color: brown;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 1 solid #fff;
+    text-align: center;
+    white-space: nowrap;
   }
 }
 </style>
